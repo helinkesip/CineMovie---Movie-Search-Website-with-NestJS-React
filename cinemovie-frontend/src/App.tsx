@@ -9,6 +9,7 @@ import { useAuth } from './AuthContext';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { addFavorite, removeFavorite, getFavorites } from './api';
+import { toast } from 'react-toastify';
 
 function App() {
   const { isAuthenticated, logout } = useAuth();
@@ -45,7 +46,11 @@ function App() {
     primary_image: { url: string };
   }) => {
     const token = localStorage.getItem('token');
-    if (!token) return;
+    if (!token) {
+      toast.warn('Lütfen giriş yapınız');
+      navigate('/login');
+      return;
+    }
 
     const movieId = movie.id;
     const isFav = isMovieFavorite(movieId);
